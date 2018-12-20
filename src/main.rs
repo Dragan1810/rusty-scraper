@@ -27,6 +27,7 @@ fn main() {
     for node in document.find(Name("h3").descendant(Name("span"))) {
         println!("{:#?}", node.text());
     }
+
 /*
     for node in document.find(Class("question-summary")).take(5) {
         let question = node.find(Class("question-hyperlink")).next().unwrap();
