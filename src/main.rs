@@ -5,20 +5,28 @@ extern crate select;
 use select::document::Document;
 use select::predicate::{Predicate, Attr, Class, Name};
 
+fn make_url(_stuff: &str) -> String {
+    let sport = "soccer";
+    let page = "matches";
+    let date = "2018-12-17";
+
+    let result = format!("http://www.scoresway.com/?sport={}&page={}&date={}", sport, page , date);
+    result
+}
 
 fn main() {
     let _bin = "http://httpbin.org/";
     let _url1 = "http://www.blankwebsite.com/";
     let scores_way = "http://www.scoresway.com/?sport=home&page=matches&date=2018-12-17";
 
-    let res = reqwest::get(scores_way).unwrap();
+    let url: &str = &make_url(scores_way)[..];
+
+    let res = reqwest::get(url).unwrap();
     let document = Document::from_read(res).unwrap();
 
-    for node in document.find(Class("nr_of_matches")) {
+    for node in document.find(Name("h3").descendant(Name("span"))) {
         println!("{:#?}", node.text());
     }
-
-
 /*
     for node in document.find(Class("question-summary")).take(5) {
         let question = node.find(Class("question-hyperlink")).next().unwrap();
