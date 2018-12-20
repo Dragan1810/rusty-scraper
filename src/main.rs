@@ -7,30 +7,19 @@ use select::predicate::{Predicate, Attr, Class, Name};
 
 
 fn main() {
-    let bin = "http://httpbin.org/";
-    let url1 = "http://www.blankwebsite.com/";
+    let _bin = "http://httpbin.org/";
+    let _url1 = "http://www.blankwebsite.com/";
+    let scores_way = "http://www.scoresway.com/?sport=home&page=matches&date=2018-12-17";
 
-    let client = reqwest::Client::new();
-    let res = client.get(url1).send().unwrap().text().unwrap();
+    let res = reqwest::get(scores_way).unwrap();
+    let document = Document::from_read(res).unwrap();
 
-println!("body = {:#?}", res);
-}
+    for node in document.find(Class("nr_of_matches")) {
+        println!("{:#?}", node.text());
+    }
 
 
 /*
-pub fn main() {
-    // stackoverflow.html was fetched from
-    // http://stackoverflow.com/questions/tagged/rust?sort=votes&pageSize=50 on
-    // Aug 10, 2015.
-    let document = Document::from(include_str!("stackoverflow.html"));
-
-    println!("# Menu");
-    for node in document.find(Attr("id", "hmenus").descendant(Name("a"))) {
-        println!("{} ({:?})", node.text(), node.attr("href").unwrap());
-    }
-    println!("");
-
-    println!("# Top 5 Questions");
     for node in document.find(Class("question-summary")).take(5) {
         let question = node.find(Class("question-hyperlink")).next().unwrap();
         let votes = node.find(Class("vote-count-post")).next().unwrap().text();
@@ -55,7 +44,6 @@ pub fn main() {
         println!("");
     }
 
-    println!("# Top 10 Related Tags");
     for node in document.find(Attr("id", "h-related-tags"))
         .next()
         .unwrap()
@@ -67,7 +55,6 @@ pub fn main() {
         let count = node.find(Class("item-multiplier-count")).next().unwrap().text();
         println!("{} ({})", tag, count);
     }
-}
-
-
 */
+
+}
