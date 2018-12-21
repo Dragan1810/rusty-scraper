@@ -3,7 +3,7 @@ extern crate scraper;
 extern crate select;
 extern crate tokio;
 
-
+use std::fmt;
 use select::document::Document;
 use select::predicate::{Predicate, Attr, Class, Name};
 use fantoccini::{Client, Locator};
@@ -24,7 +24,7 @@ fn main() {
     let _url1 = "http://www.blankwebsite.com/";
 
     let url: &str = &make_url(scores_way)[..];
-    let c = Client::new(url);
+    let c = Client::new("http://localhost:4444");
 
     let res = reqwest::get(url).unwrap();
     let document = Document::from_read(res).unwrap();
@@ -52,7 +52,9 @@ fn main() {
             // click "Foo Lake"
             c.find(Locator::LinkText("Foo Lake"))
         })
-        .and_then(|e| e.click())
+        .and_then(|e| {
+            e.click()
+            })
         .and_then(|mut c| c.current_url())
         .and_then(|url| {
             assert_eq!(url.as_ref(), "https://en.wikipedia.org/wiki/Foo_Lake");
