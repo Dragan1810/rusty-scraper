@@ -48,7 +48,15 @@ fn main() {
             for el in elements {
                 el.click();
             }
+
+            // find new Content
+            // get HTML
+            // Profit
+
+
+
             //img.attr("src").map(move |src| (img, src.expect("image should have a src")))
+
             Ok(())
         })
         .map_err(|e| {
