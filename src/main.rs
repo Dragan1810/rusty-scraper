@@ -42,22 +42,22 @@ fn main() {
         .and_then(move |c| c.goto(&make_url(scores_way)))
         .and_then(|mut c| {
             c.find_all(Locator::Css(".group-head.clickable"))
-
         })
-        .and_then(|mut elements| {
+        .and_then(|elements| {
             for el in elements {
                 el.click();
             }
 
+            Ok(())
+            //img.attr("src").map(move |src| (img, src.expect("image should have a src")))
+        })
+        .and_then(|mut c| {
+            //c.find_all(Locator::Css(".group-head.clickable.expanded.loaded"))
             // find new Content
             // get HTML
             // Profit
 
-
-
-            //img.attr("src").map(move |src| (img, src.expect("image should have a src")))
-
-            Ok(())
+             Ok(())
         })
         .map_err(|e| {
             panic!("a WebDriver command failed: {:?}", e);
